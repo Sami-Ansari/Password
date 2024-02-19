@@ -35,3 +35,10 @@ if st.button("Login"):
 # Toggle password visibility
 # if show_password:
 #     st.text_input("Your Password", value=password)
+def make_chars(inputs):
+    characters=[]
+    for letter in inputs:
+        characters.append(letter)
+    return characters
+
+vectorizer=TfidfVectorizer(tokenizer=make_chars)
