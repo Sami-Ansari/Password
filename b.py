@@ -1,25 +1,26 @@
 import streamlit as st
 import dill
 import numpy as np
-# from sklearn.feature_extraction.text import TfidfVectorizer
-
-# Load model and vectorizer
-model = dill.load(open("xgb_classifier.pkl", "rb"))
-vectorizer = dill.load(open("vectorizer.pkl", "rb"))
 
 # Define Streamlit app
 st.set_page_config(page_title="Login", page_icon=":lock:")
 st.markdown('<style>body{background-color: #0f0f0f; color: #00ff00;}</style>', unsafe_allow_html=True)
 st.header("Password Strength Analyzer")
 
+# Load model and vectorizer
+@st.cache_resource()
+def load_model_and_vectorizer():
+    model = dill.load(open("xgb_classifier.pkl", "rb"))
+    vectorizer = dill.load(open("vectorizer.pkl", "rb"))
+    return model, vectorizer
+
+model, vectorizer = load_model_and_vectorizer()
+
 # Create username input box
 username = st.text_input("Enter Username")
 
 # Create password input field
 password = st.text_input("Enter Password", type="password")
-
-# Show password checkbox
-# show_password = st.checkbox("Show Password")
 
 # Password strength prediction
 if st.button("Login"):
@@ -31,7 +32,3 @@ if st.button("Login"):
         st.success("Strong Password But Watch Out")
     elif predicted <= 0:
         st.warning("Already Cracked Somewhere Choose Strong One")
-
-# Toggle password visibility
-# if show_password:
-#     st.text_input("Your Password", value=password)
