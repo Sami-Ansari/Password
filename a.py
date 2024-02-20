@@ -5,7 +5,14 @@ import numpy as np
 
 # Load model and vectorizer
 model = dill.load(open("xgb_classifier.pkl", "rb"))
-vectorizer = dill.load(open("vectorizer.pkl", "rb"))
+vectorizer=dill.load(open("vectorizer.pkl","rb"))
+async def  make_chars(inputs):
+    characters=[]
+    for letter in inputs:
+        characters.append(letter)
+    return characters
+
+
 
 # Define Streamlit app
 st.set_page_config(page_title="Login", page_icon=":lock:")
